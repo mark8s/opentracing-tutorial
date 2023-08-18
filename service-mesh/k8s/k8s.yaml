@@ -1,0 +1,103 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: summer-camp-service
+spec:
+  selector:
+    matchLabels:
+      app: summer-camp
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: summer-camp
+    spec:
+      containers:
+      - name: summer-camp
+        image: registry.cn-shenzhen.aliyuncs.com/solarmesh/summer-camp-service:v1.0
+        ports:
+        - containerPort: 8081
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: summer-camp-service
+spec:
+  selector:
+    app: summer-camp
+  ports:
+  - name: http
+    port: 8081
+    protocol: TCP
+    targetPort: 8081
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reading-service
+spec:
+  selector:
+    matchLabels:
+      app: reading
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: reading
+    spec:
+      containers:
+      - name: reading
+        image: registry.cn-shenzhen.aliyuncs.com/solarmesh/reading-service:v1.0
+        ports:
+        - containerPort: 8082
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: reading-service
+spec:
+  selector:
+    app: reading
+  ports:
+  - name: http
+    port: 8082
+    protocol: TCP
+    targetPort: 8082
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: details-service
+spec:
+  selector:
+    matchLabels:
+      app: details
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: details
+    spec:
+      containers:
+      - name: details
+        image: registry.cn-shenzhen.aliyuncs.com/solarmesh/details-service:v1.0
+        ports:
+        - containerPort: 8083
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: details-service
+spec:
+  selector:
+    app: details
+  ports:
+  - name: http
+    port: 8083
+    protocol: TCP
+    targetPort: 8083
+
+

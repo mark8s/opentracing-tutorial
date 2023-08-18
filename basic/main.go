@@ -36,6 +36,7 @@ func main() {
 			// traceid 对应的header为 Uber-Trace-Id
 			// 上文中设置的baggage userid header标 变为 Uberctx-Userid
 			// 上文中设置的baggage traffic header标 变为 Uberctx-traffic
+			// 从 HTTP 请求的头部中提取跟踪信息，以创建一个新的 Span 上下文
 			spanCtx, _ := tracer.Extract(opentracing.HTTPHeaders, opentracing.HTTPHeadersCarrier(r.Header)) // r.Header 中包含了 Uber-Trace-Id: 根traceId
 			span := tracer.StartSpan("reading", ext.RPCServerOption(spanCtx))
 			defer span.Finish()
@@ -119,6 +120,8 @@ func reading(ctx context.Context) {
 	ext.SpanKindRPCClient.Set(span)
 	ext.HTTPUrl.Set(span, url)
 	ext.HTTPMethod.Set(span, "GET")
+	// 使用 OpenTracing 的注入功能，将当前 Span 的上下文信息注入到 HTTP 请求的头部。
+	// 这样，在请求发送到远程服务时，跟踪信息会被传递给服务端，从而保持跨服务的请求链路追踪。
 	span.Tracer().Inject(
 		span.Context(),
 		opentracing.HTTPHeaders,
