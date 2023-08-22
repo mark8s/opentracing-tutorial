@@ -39,9 +39,33 @@ kubectl apply -f ./k8s/k8s.yaml
 
 效果:
 
+访问：
+
+```shell
+/ $ curl  http://summer-camp-service:8081/summercamp
+user: , staring summer camp. he are reading poetry
+ reading poetry: 静夜思（唐'李白）
+Details: 
+床前明月光，
+疑是地上霜，
+举头望明月，
+低头思故乡
+```
+
 ![](../images/img_3.png)
+
+
+## 待探索
+
+- 如何 修改span的内容，如增加 tag、log event（尝试了，发现数据没有体现在 链路视图中，或许是某配置没配置对）
+- baggage（结果跟上面一样）
 
 
 ## 参考
 
 [微服务使用istio分布式追踪](https://hanamichi.wiki/posts/go-micro-istio/)
+
+[Instrumenting Microservices with Istio for Distributed Tracing](https://logz.io/blog/istio-instrumenting-microservices-distributed-tracing/)
+
+[istio-go-example](https://github.com/albertteoh/istio-go-example)
+
