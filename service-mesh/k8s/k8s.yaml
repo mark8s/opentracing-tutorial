@@ -15,9 +15,13 @@ spec:
     spec:
       containers:
       - name: summer-camp
-        image: registry.cn-shenzhen.aliyuncs.com/solarmesh/summer-camp-service:v1.0
+        image: registry.cn-shenzhen.aliyuncs.com/solarmesh/summer-camp-service:v10.0
         ports:
         - containerPort: 8081
+        env:
+        - name: "READING_SERVICE"
+          value: "reading-service:8082"
+        imagePullPolicy: Always
 ---
 apiVersion: v1
 kind: Service
@@ -49,9 +53,13 @@ spec:
     spec:
       containers:
       - name: reading
-        image: registry.cn-shenzhen.aliyuncs.com/solarmesh/reading-service:v1.0
+        image: registry.cn-shenzhen.aliyuncs.com/solarmesh/reading:v10.0
         ports:
         - containerPort: 8082
+        env:
+        - name: "DETAILS_SERVICE"
+          value: "details-service:8083"
+        imagePullPolicy: Always
 ---
 apiVersion: v1
 kind: Service
@@ -83,9 +91,10 @@ spec:
     spec:
       containers:
       - name: details
-        image: registry.cn-shenzhen.aliyuncs.com/solarmesh/details-service:v1.0
+        image: registry.cn-shenzhen.aliyuncs.com/solarmesh/details:v10.0
         ports:
         - containerPort: 8083
+        imagePullPolicy: Always
 ---
 apiVersion: v1
 kind: Service

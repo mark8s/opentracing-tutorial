@@ -37,6 +37,10 @@ kubectl label namespace default istio-injection=enabled --overwrite
 kubectl apply -f ./k8s/k8s.yaml
 ```
 
+效果:
+
+![](../images/img_3.png)
+
 
 ## 参考
 
